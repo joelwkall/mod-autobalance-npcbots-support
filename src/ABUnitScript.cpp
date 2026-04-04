@@ -342,6 +342,11 @@ int32 AutoBalance_UnitScript::_Modify_Damage_Healing(Unit* target, Unit* source,
         return amount;
     }
 
+    //npcbot
+    if (source->IsNPCBotOrPet())
+        return amount;
+    //end npcbot
+
     //
     // Multiplier calculation
     //
@@ -478,6 +483,11 @@ uint32 AutoBalance_UnitScript::_Modifier_CCDuration(Unit* target, Unit* caster, 
     // if the target isn't a player or the caster is a player, return the original duration
     if (!target->IsPlayer() || caster->IsPlayer())
         return originalDuration;
+
+    //npcbot
+    if (caster->IsNPCBotOrPet())
+        return originalDuration;
+    //end npcbot
 
     // make sure we're in an instance, else return the original duration
     if (!(target->GetMap()->IsDungeon() && caster->GetMap()->IsDungeon()))

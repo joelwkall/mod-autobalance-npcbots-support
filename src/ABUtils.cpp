@@ -1749,6 +1749,11 @@ bool isCreatureRelevant(Creature* creature)
         return false;
     }
 
+    //npcbot
+    if (creature->IsNPCBotOrPet())
+        return false;
+    //end npcbot
+
     // if this is a player temporary summon (that isn't actively trying to kill the players), make no changes
     if (
         creature->ToTempSummon() &&

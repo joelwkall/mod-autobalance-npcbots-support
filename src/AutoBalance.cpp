@@ -72,6 +72,25 @@
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
+//npcbot
+#if not(defined(MOD_PRESENT_NPCBOTS)) || MOD_PRESENT_NPCBOTS != 1
+ #error "NPCBots mod is not installed! This version of Autobalance only supports AzerothCore+NPCBots."
+#endif
+#include "botmgr.h"
+//end npcbot
+
+//npcbot
+class ABModuleNPCBots : public ABModuleScript
+{
+public:
+    ABModuleNPCBots() : ABModuleScript("ABModuleNPCBots") {}
+
+    bool OnBeforeModifyAttributes(Creature* creature, uint32& /*instancePlayerCount*/) override { return !creature->IsNPCBotOrPet(); }
+    bool OnAfterDefaultMultiplier(Creature* creature, float& /*defaultMultiplier*/) override { return !creature->IsNPCBotOrPet(); }
+    bool OnBeforeUpdateStats(Creature* creature, uint32& /*scaledHealth*/, uint32& /*scaledMana*/, float& /*damageMultiplier*/, uint32& /*newBaseArmor*/) override { return !creature->IsNPCBotOrPet(); }
+};
+//end npcbot
+
 void AddAutoBalanceScripts()
 {
     new AutoBalance_WorldScript();
@@ -82,4 +101,8 @@ void AddAutoBalanceScripts()
     new AutoBalance_AllMapScript();
     new AutoBalance_CommandScript();
     new AutoBalance_GlobalScript();
+
+    //npcbot
+    new ABModuleNPCBots();
+    //end npcbot
 }

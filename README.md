@@ -5,7 +5,11 @@
 The current version of the master branch is currently in beta, under testing to ensure all the functionalities are working properly.
 If you encur in problems please open an Issue and consider to use the last [stable version](https://github.com/azerothcore/mod-autobalance/releases/tag/stable) of this repository.
 
-## AutoBalance
+## AutoBalance With NPCbots supported
+
+A version of `mod-autobalance` compatible with [AzerothCore-wotlk-with-NPCBots](https://github.com/trickerer/AzerothCore-wotlk-with-NPCBots)
+
+- NPC bot support was copied from https://github.com/azerothcore/mod-autobalance but based on a newer version of Autobalance
 
 - Latest build status with azerothcore: [![Build Status](https://github.com/azerothcore/mod-autobalance/workflows/core-build/badge.svg?branch=master&event=push)](https://github.com/azerothcore/mod-autobalance)
 
