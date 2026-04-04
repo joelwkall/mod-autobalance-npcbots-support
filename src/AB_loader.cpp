@@ -1,6 +1,6 @@
 void AddAutoBalanceScripts();
 
-void Addmod_autobalanceScripts()
+void Addmod_autobalance_npcbots_supportScripts()
 {
     AddAutoBalanceScripts();
 }
