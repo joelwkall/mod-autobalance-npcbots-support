@@ -69,6 +69,10 @@ std::list<uint32> creatureIDsThatAreNotClones =
 
 int8          PlayerCountDifficultyOffset;
 
+//npcbot
+float         NPCBotWeight;
+//end npcbot
+
 bool          LevelScaling;
 int8          LevelScalingSkipHigherLevels;
 int8          LevelScalingSkipLowerLevels;

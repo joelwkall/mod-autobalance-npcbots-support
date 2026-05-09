@@ -698,6 +698,26 @@ AutoBalance.ForcedID10=""
 AutoBalance.ForcedID5=""
 AutoBalance.ForcedID2=""
 
+##########################
+#
+# NPCBots Settings
+#
+##########################
+
+#
+#     AutoBalance.NPCBots.Weight
+#        How much each NPCBot counts toward the adjusted player count.
+#        Each player's bots are summed, multiplied by this value, and the result (rounded up) is added to playerCount.
+#
+#        Examples (with 1 human player and 3 bots):
+#          1.0  -> bots count fully:  1 player + 3 bots = 4
+#          0.5  -> bots count at half: 1 player + ceil(3 * 0.5) = 1 + 2 = 3
+#          0.0  -> bots are ignored:  1 player
+#
+#        Default: 1.0
+#
+AutoBalance.NPCBots.Weight=1.0
+
 #
 #     AutoBalance.DisabledID
 #        Disable scaling on specific creatures

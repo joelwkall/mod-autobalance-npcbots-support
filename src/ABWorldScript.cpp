@@ -133,6 +133,10 @@ void AutoBalance_WorldScript::SetInitialWorldSettings()
 
     rewardEnabled               = sConfigMgr->GetOption<bool>  ("AutoBalance.reward.enable", 1);
     PlayerCountDifficultyOffset = sConfigMgr->GetOption<uint32>("AutoBalance.playerCountDifficultyOffset", 0);
+
+    //npcbot
+    NPCBotWeight = sConfigMgr->GetOption<float>("AutoBalance.NPCBots.Weight", 1.0f);
+    //end npcbot
     rewardRaid                  = sConfigMgr->GetOption<uint32>("AutoBalance.reward.raidToken", 49426);
     rewardDungeon               = sConfigMgr->GetOption<uint32>("AutoBalance.reward.dungeonToken", 47241);
     MinPlayerReward             = sConfigMgr->GetOption<float> ("AutoBalance.reward.MinPlayerReward", 1);

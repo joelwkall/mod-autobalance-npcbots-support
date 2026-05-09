@@ -7,6 +7,30 @@
 #include "Chat.h"
 #include "Message.h"
 
+//npcbot
+#include "botmgr.h"
+
+class PlayersCountRecheckEvent : public BasicEvent
+{
+public:
+    explicit PlayersCountRecheckEvent(AutoBalance_AllMapScript* script, Map* map, Player const* player)
+        : _script(script), _map(map), _player(player) {}
+
+    PlayersCountRecheckEvent(PlayersCountRecheckEvent const&) = delete;
+
+    bool Execute(uint64 /*e_time*/, uint32 /*p_time*/) override
+    {
+        if (_player->HaveBot())
+            _script->AfterBotsEnter(_map, _player);
+        return true;
+    }
+
+private:
+    AutoBalance_AllMapScript* _script;
+    Map*                      _map;
+    Player const*             _player;
+};
+//end npcbot
 
 void AutoBalance_AllMapScript::OnPlayerEnterAll(Map* map, Player* player)
 {
@@ -70,6 +94,14 @@ void AutoBalance_AllMapScript::OnPlayerEnterAll(Map* map, Player* player)
     {
         AddCreatureToMapCreatureList(*creatureIterator, false, true);
     }
+
+    //npcbot: recalculate player count once all bots have teleported in
+    //the event is automatically deleted if the player leaves before it fires
+    //max teleport delay for a bot is ~8000ms
+    if (NPCBotWeight > 0.0f)
+        player->m_Events.AddEvent(new PlayersCountRecheckEvent(this, map, player),
+                                  player->m_Events.CalculateTime(8500));
+    //end npcbot
 
     // Notify players of the change
     if (PlayerChangeNotify && mapABInfo->enabled)
@@ -225,3 +257,29 @@ void AutoBalance_AllMapScript::OnPlayerLeaveAll(Map* map, Player* player)
         }
     }
 }
+
+//npcbot
+void AutoBalance_AllMapScript::AfterBotsEnter(Map* map, Player const* player)
+{
+    AutoBalanceMapInfo* mapABInfo = GetMapInfo(map);
+    uint8 oldPlayerCount = mapABInfo->playerCount;
+
+    UpdateMapPlayerStats(map);
+
+    if (mapABInfo->enabled && PlayerChangeNotify && EnableGlobal && oldPlayerCount != mapABInfo->playerCount)
+    {
+        for (MapReference const& ref : map->GetPlayers())
+        {
+            if (Player const* playerHandle = ref.GetSource())
+            {
+                ChatHandler(playerHandle->GetSession()).PSendSysMessage(
+                    "|cffFF0000 [AutoBalance]|r|cffFF8000 %s's bots entered %s. Adjusted player count: %i.|r",
+                    player->GetName().c_str(),
+                    map->GetMapName(),
+                    mapABInfo->adjustedPlayerCount
+                );
+            }
+        }
+    }
+}
+//end npcbot

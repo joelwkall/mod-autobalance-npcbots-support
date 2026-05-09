@@ -39,6 +39,10 @@ extern std::list<uint32>                                             creatureIDs
 
 extern int8                                                          PlayerCountDifficultyOffset;
 
+//npcbot
+extern float                                                         NPCBotWeight;
+//end npcbot
+
 extern bool                                                          LevelScaling;
 extern int8                                                          LevelScalingSkipHigherLevels;
 extern int8                                                          LevelScalingSkipLowerLevels;

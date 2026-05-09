@@ -2424,6 +2424,31 @@ void UpdateMapPlayerStats(Map* map)
 
     mapABInfo->playerCount = mapABInfo->allMapPlayers.size() ? mapABInfo->allMapPlayers.size() : 1;
 
+    //npcbot
+    if (NPCBotWeight > 0.0f)
+    {
+        uint32 botCount = 0;
+        for (std::vector<Player*>::const_iterator playerIterator = mapABInfo->allMapPlayers.begin(); playerIterator != mapABInfo->allMapPlayers.end(); ++playerIterator)
+        {
+            Player* thisPlayer = *playerIterator;
+            if (thisPlayer && thisPlayer->HaveBot())
+                botCount += thisPlayer->GetNpcBotsCount();
+        }
+        if (botCount > 0)
+        {
+            uint8 botContribution = (uint8)std::ceil((float)botCount * NPCBotWeight);
+            mapABInfo->playerCount += botContribution;
+            LOG_DEBUG("module.AutoBalance", "AutoBalance::UpdateMapPlayerStats: Map {} ({}{}) | botCount = ({}), NPCBotWeight = ({:.2f}), botContribution = ({}).",
+                instanceMap->GetMapName(),
+                instanceMap->GetId(),
+                instanceMap->GetInstanceId() ? "-" + std::to_string(instanceMap->GetInstanceId()) : "",
+                botCount,
+                NPCBotWeight,
+                botContribution);
+        }
+    }
+    //end npcbot
+
     LOG_DEBUG("module.AutoBalance", "AutoBalance::UpdateMapPlayerStats: Map {} ({}{}) | playerCount = ({}).",
         instanceMap->GetMapName(),
         instanceMap->GetId(),

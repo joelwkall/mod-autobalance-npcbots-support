@@ -22,6 +22,10 @@ public:
     void OnPlayerEnterAll(Map* map, Player* player) override;
     // hook triggers just before the player left the world
     void OnPlayerLeaveAll(Map* map, Player* player) override;
+
+    //npcbot
+    void AfterBotsEnter(Map* map, Player const* player);
+    //end npcbot
 };
 
 #endif
