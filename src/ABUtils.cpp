@@ -11,6 +11,10 @@
 #include "Log.h"
 #include "Player.h"
 #include "TemporarySummon.h"
+//npcbot
+#include "Group.h"
+#include "botmgr.h"
+//end npcbot
 
 #include <chrono>
 #include <sstream>
@@ -2428,11 +2432,17 @@ void UpdateMapPlayerStats(Map* map)
     if (NPCBotWeight > 0.0f)
     {
         uint32 botCount = 0;
-        for (std::vector<Player*>::const_iterator playerIterator = mapABInfo->allMapPlayers.begin(); playerIterator != mapABInfo->allMapPlayers.end(); ++playerIterator)
+        for (Player* const thisPlayer : mapABInfo->allMapPlayers)
         {
-            Player* thisPlayer = *playerIterator;
-            if (thisPlayer && thisPlayer->HaveBot())
-                botCount += thisPlayer->GetNpcBotsCount();
+            if (!thisPlayer || !thisPlayer->HaveBot())
+                continue;
+            Group* group = thisPlayer->GetGroup();
+            if (!group)
+                continue;
+            BotMap const* botMap = thisPlayer->GetBotMgr()->GetBotMap();
+            for (auto const& botEntry : *botMap)
+                if (botEntry.second && group->IsMember(botEntry.first))
+                    ++botCount;
         }
         if (botCount > 0)
         {
