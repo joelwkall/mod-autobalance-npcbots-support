@@ -273,8 +273,8 @@ void AutoBalance_AllMapScript::AfterBotsEnter(Map* map, Player const* player)
             if (Player const* playerHandle = ref.GetSource())
             {
                 ChatHandler(playerHandle->GetSession()).PSendSysMessage(
-                    "|cffFF0000 [AutoBalance]|r|cffFF8000 %s's bots entered %s. Adjusted player count: %i.|r",
-                    player->GetName().c_str(),
+                    "|cffFF0000 [AutoBalance]|r|cffFF8000 {}'s bots entered {}. Adjusted player count: {}.|r",
+                    player->GetName(),
                     map->GetMapName(),
                     mapABInfo->adjustedPlayerCount
                 );
